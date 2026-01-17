@@ -1,0 +1,15 @@
+{
+  "name": "Ausgang1",
+  "typ": "0",
+  "ip": "0.0.0.0",
+  "pin": "1",
+  "pos": "3",
+  "modus": "0",
+  "ref": "0",
+  "pwron": "0",
+  "pwroff": "0",
+  "minbatt": "100",
+  "prio": "3",
+  "mintime": "0",
+  "offtime": "0"
+}
