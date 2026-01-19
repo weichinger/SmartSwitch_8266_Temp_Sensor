@@ -21,6 +21,7 @@
 #include "config.h"
 #include "myUtils.h"
 #include "mydisplay.h"
+#include "TempSensor.h"
 
 // prototypes
 void searchNextError(void);
@@ -153,6 +154,21 @@ void sendBattData() /*  Daten der Batterie + Version */
 	server.send(200, F("application/json"), outputjson);
 	//    Serial.println(outputjson);
 }
+
+void sendTempData() /*  Daten der Batterie + Version */
+{
+	if (cfg.bDebug)
+		Serial.println(F("Send BattData to Browser "));
+	String tmp = getTemperatur();
+	JsonDocument doc;
+	doc["TEMP"] = String(tmp);
+	searchNextError(); // uiActErrIdx auf nächsten Fehler weiterstellen
+	char outputjson[512];
+	serializeJson(doc, outputjson);
+	server.send(200, F("application/json"), outputjson);
+	// Serial.println(outputjson);
+}
+
 //-------------------------------------------
 void sendOutputConfig()
 { /* Senden der Konfiguration des Ausgangs */
@@ -467,6 +483,7 @@ void StartWebServer()
 	server.on("/outconfigmodify", outConfigModify);
 	server.on("/configmodify", configmodify);
 	server.on("/outputchange", outputChange);
+	server.on("/tempdata", sendTempData);
 
 	server.on("/cmd", checkCommand);
 
