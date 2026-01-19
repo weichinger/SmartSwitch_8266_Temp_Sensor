@@ -141,8 +141,15 @@
 		</div>
 		<div>
 		<input type="number" size="4" id="ladung" name="ladung"
-		   size="3" min="0" max="100" step="5" value="0" > Prozent
+		   size="3" min="0" max="100" step="1" value="0" > Prozent
 		</div>
+		<div>
+		  <label for="temperatur">Mindesttemperatur des Boilers</label>
+		</div>
+		<div>
+		<input type="number" size="4" id="temperatur" name="temperatur"
+		size="3" min="40" max="62" step="1" value="0" > Grad Celsius
+		</div>		
 
 		</fieldset>
 		<fieldset>
@@ -287,6 +294,7 @@
 			document.getElementById("prio").value = odat.prio;
 			document.getElementById("mintime").value = odat.mintime;
 			document.getElementById("offtime").value = odat.offtime;
+			document.getElementById("temperatur").value = odat.temperatur;
 		}
 	};
 	xhr.send();

@@ -41,6 +41,8 @@ Serial.println(ESP.getMaxFreeBlockSize());
 	doc["prio"] = String(output[idx].uiPrio);
 	doc["mintime"] = String(output[idx].uiMinOnTime);
 	doc["offtime"] = String(output[idx].uiOffTimeDelay);
+	doc["temperatur"] = String(output[idx].uiTemperatur);
+
 #ifdef DEBUGLEVEL
 	if (cfg.bDebug) {
 		Serial.println("Ausgangskonfiguration wird gespeichert:");
@@ -185,6 +187,7 @@ int8_t loadOutConfig(int nr) {
 	output[idx].uiPrio = jsondoc["prio"];
 	output[idx].uiMinOnTime = jsondoc["mintime"];
 	output[idx].uiOffTimeDelay = jsondoc["offtime"];
+	output[idx].uiTemperatur = jsondoc["temperatur"];
 #ifdef DEBUGLEVEL
 	if (cfg.bDebug) {
 		showOutCfgSerial(idx);
@@ -305,6 +308,7 @@ int resetOutputconfig(int idx) {
 	output[idx].uiPrio = 3;
 	output[idx].uiMinOnTime = 0;
 	output[idx].uiOffTimeDelay = 0;
+	output[idx].uiTemperatur = 60;
 
 	int res = saveOutputConfig(idx);
 	return res;

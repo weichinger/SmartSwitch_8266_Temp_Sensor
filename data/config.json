@@ -6,5 +6,6 @@
   "PORT": "80",
   "CMD": "GET /api/v2/status HTTP/1.1",
   "FILTERTIME": "1",
-  "DEBUG": "0"
+  "DEBUG": "0",
+  "TEMPERATUR": "60"
 }

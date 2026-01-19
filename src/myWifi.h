@@ -345,6 +345,8 @@ void outConfigModify()
 	output[idx].uiMinOnTime = tmp.toInt();
 	tmp = server.arg("offtime");
 	output[idx].uiOffTimeDelay = tmp.toInt();
+	tmp = server.arg("temperatur");
+	output[idx].uiTemperatur = tmp.toInt();	
 
 	// Bestätigung schicken
 	File file = LittleFS.open("/confirm.html", "r");

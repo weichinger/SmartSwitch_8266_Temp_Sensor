@@ -72,6 +72,7 @@ typedef struct {
 	uint8_t uiPrio;
 	uint16_t uiMinOnTime;
 	uint16_t uiOffTimeDelay;
+	uint16_t uiTemperatur;
 	// internal use
 	uint8_t x;                  // Istzustand des Ausgangs
 	uint8_t xa;                 // Automatikzustand
