@@ -66,7 +66,7 @@ void outputWrite(int idx, bool x)
 	switch (output[idx].typ)
 	{
 	case GPIOPIN:
-		digitalWrite(output[idx].pin, x);
+		digitalWrite(output[idx].pin, !x);
 		output[idx].x = x; // Zustand merken
 		break;
 	case TASMOTA:
