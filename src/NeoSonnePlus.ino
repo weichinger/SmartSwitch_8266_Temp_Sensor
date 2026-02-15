@@ -34,7 +34,9 @@
 #include "myWifi.h"
 #include "myUtils.h"
 #include "mydisplay.h"
+#ifdef TMPSENSOR
 #include "TempSensor.h"
+#endif
 
 #define ARRAYSIZE 10
 #define REFRESHRATE_DISPLAY 1000 // ms
@@ -63,8 +65,9 @@ void setup()
   WiFi.mode(WIFI_STA); // set station mode
   WiFi.hostname("pvswitch");
   WiFiManager wm; //  wm instance local
-
+#ifdef TMPSENSOR
   initOneWire();
+#endif
   mydisplay_init(); // display initialisieren
   String tmp = ESP.getResetReason();
   char buf[128];
@@ -217,10 +220,12 @@ void loop()
     switch (cfg.typ)
     {
     case SONNEN:
-      //Serial.println("getSonnenInfo");
+      // Serial.println("getSonnenInfo");
       getSonnenInfo();
+#ifdef TMPSENSOR
       getTemperatur();
-      //Serial.println("getTemperatur");
+#endif
+      // Serial.println("getTemperatur");
       break;
     default:
       break;

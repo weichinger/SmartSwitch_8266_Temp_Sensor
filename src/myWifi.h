@@ -21,7 +21,9 @@
 #include "config.h"
 #include "myUtils.h"
 #include "mydisplay.h"
+#ifdef TMPSENSOR
 #include "TempSensor.h"
+#endif
 
 // prototypes
 void searchNextError(void);
@@ -346,7 +348,7 @@ void outConfigModify()
 	tmp = server.arg("offtime");
 	output[idx].uiOffTimeDelay = tmp.toInt();
 	tmp = server.arg("temperatur");
-	output[idx].uiTemperatur = tmp.toInt();	
+	output[idx].uiTemperatur = tmp.toInt();
 
 	// Bestätigung schicken
 	File file = LittleFS.open("/confirm.html", "r");

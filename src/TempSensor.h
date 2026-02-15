@@ -12,14 +12,14 @@ DallasTemperature sensors(&ds);
 void initOneWire()
 {
     sensors.begin();
+    sensors.setResolution(9); // Auflösung 9 bit
     // discoverOneWireDevices();
 }
 
 String getTemperatur()
 {
     sensors.requestTemperatures();
-    return (String)sensors.getTempCByIndex(0);
-    // return "23.5";
+    return String(sensors.getTempCByIndex(0), 1);
 }
 
 String discoverOneWireDevices(void)
