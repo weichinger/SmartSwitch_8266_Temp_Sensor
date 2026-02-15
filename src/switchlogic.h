@@ -160,9 +160,10 @@ void switchupdate()
 			}
 			if (output[i].uiPrio == prio && iLimitReferenz > output[i].iLimitOn && g_uiBatterieLadezustand >= output[i].uiMinBattState && output[i].xa == OFF && output[i].eMode == AUTOMATIK)
 			{
-				// einschalten
-				if (cfg.bDebug)
-					Serial.printf("Ausgang %i einschalten", i + 1);
+// einschalten
+#ifdef DEBUGMODE
+				Serial.printf("Ausgang %i einschalten", i + 1);
+#endif
 				output[i].stopTime = 0;
 				output[i].startTime = akttime;
 				output[i].xa = ON;
@@ -212,8 +213,9 @@ void switchupdate()
 							if (!output[i].bForced)
 								output[i].x = OFF;
 							outputWrite(i, output[i].x);
-							if (cfg.bDebug)
-								Serial.printf("Ausgang %i ausschalten", i + 1);
+#ifdef DEBUGMODE
+							Serial.printf("Ausgang %i ausschalten", i + 1);
+#endif
 							return;
 						}
 					}
@@ -224,8 +226,9 @@ void switchupdate()
 						if (!output[i].bForced)
 							output[i].x = OFF;
 						outputWrite(i, output[i].x);
-						if (cfg.bDebug)
-							Serial.printf("Ausgang %i ausschalten", i + 1);
+#ifdef DEBUGMODE
+						Serial.printf("Ausgang %i ausschalten", i + 1);
+#endif
 						return;
 					}
 				}

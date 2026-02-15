@@ -67,7 +67,9 @@ void handleRoot()
 	{
 		strcpy(fname, "/index0.html");
 	}
+#ifdef DEBUGMODE
 	Serial.printf("Hauptseite %s angewählt", fname);
+#endif
 
 	File file = LittleFS.open(fname, "r");
 	if (!file)
@@ -83,7 +85,9 @@ void handleRoot()
 
 void handleConfig()
 { /* Senden der Konfigurationsseite */
+#ifdef DEBUGMODE
 	Serial.println("Konfigseite angewählt");
+#endif
 	File file = LittleFS.open("/config.html", "r");
 	if (!file)
 	{
@@ -114,13 +118,17 @@ void handleOutputConfig()
 	{
 		server.streamFile(file, F("text/html"));
 	}
+#ifdef DEBUGMODE
 	Serial.println("Output-Konfigseite angewählt");
+#endif
 	file.close();
 }
 
 void sendIcon()
 {
+#ifdef DEBUGMODE
 	Serial.println("Favicon angefordert");
+#endif
 	File file = LittleFS.open("/favicon.ico", "r");
 	if (!file)
 	{
@@ -130,14 +138,17 @@ void sendIcon()
 	else
 	{
 		server.streamFile(file, F("image/avif"));
+#ifdef DEBUGMODE
 		Serial.println("Icon gesendet");
+#endif
 	}
 }
 
 void sendBattData() /*  Daten der Batterie + Version */
 {
-	if (cfg.bDebug)
-		Serial.println(F("Send BattData to Browser "));
+#ifdef DEBUGMODE
+	Serial.println(F("Send BattData to Browser "));
+#endif
 	JsonDocument doc;
 
 	doc["SOC"] = String(g_uiBatterieLadezustand);
@@ -154,13 +165,16 @@ void sendBattData() /*  Daten der Batterie + Version */
 	char outputjson[512];
 	serializeJson(doc, outputjson);
 	server.send(200, F("application/json"), outputjson);
-	//    Serial.println(outputjson);
+#ifdef DEBUGMODE
+	Serial.println(outputjson);
+#endif
 }
 
 void sendTempData() /*  Daten der Batterie + Version */
 {
-	if (cfg.bDebug)
-		Serial.println(F("Send BattData to Browser "));
+#ifdef DEBUGMODE
+	Serial.println(F("Send BattData to Browser "));
+#endif
 	String tmp = getTemperatur();
 	JsonDocument doc;
 	doc["TEMP"] = String(tmp);
@@ -174,14 +188,18 @@ void sendTempData() /*  Daten der Batterie + Version */
 //-------------------------------------------
 void sendOutputConfig()
 { /* Senden der Konfiguration des Ausgangs */
+#ifdef DEBUGMODE
 	Serial.print(F("sendOutputConfig to Browser: "));
+#endif
 	//  Konfiginfo lesen
 	String tmp = server.arg("XNR");
 	uiAktOutputNr = tmp.toInt();
 	String fname = String("output" + String(uiAktOutputNr) + "cfg.json");
 	File file = LittleFS.open(fname, "r");
+#ifdef DEBUGMODE
 	Serial.print(F("Filename:"));
 	Serial.println(fname);
+#endif
 	if (!file)
 	{
 		Serial.println("Fehler beim Öffnen des Konfigurationsfiles der Ausgänge");
@@ -201,7 +219,9 @@ void sendOutputConfig()
 
 void sendConfig()
 { /* Senden der allgemeinen Konfiguration */
+#ifdef DEBUGMODE
 	Serial.println(F("sendConfig to Browser: "));
+#endif
 	//  Konfiginfo lesen
 	File file = LittleFS.open("config.json", "r");
 	if (!file)
@@ -225,7 +245,7 @@ void sendOutputNames()
 { /* Senden der Bezeichnungen der Ausgänge */
 	String msgOutputsJson = "{\"O1N\":\"" + String(output[0].strOutputname) + "\"" + ",\"O2N\":\"" + String(output[1].strOutputname) + "\"" + ",\"O3N\":\"" + String(output[2].strOutputname) + "\"" + ",\"O4N\":\"" + String(output[3].strOutputname) + "\"" + ",\"O5N\":\"" + String(output[4].strOutputname) + "\"" + ",\"O6N\":\"" + String(output[5].strOutputname) + "\"}";
 	server.send(200, F("application/json"), msgOutputsJson);
-	DebugPrint("Namen der Ausgänge gesendet !");
+	// DebugPrint("Namen der Ausgänge gesendet !");
 }
 //--------------------------------------------------------------------------------------
 void sendOutputData()
@@ -233,11 +253,11 @@ void sendOutputData()
 	updateExState();
 	String msgOutputsJson = "{\"ANZ\":\"" + String(cfg.anzoutputs) + "\"" + ",\"A1Z\":\"" + String(output[0].exState) + "\"" + ",\"A1M\":\"" + String(output[0].eMode) + "\"" + ",\"A1P\":\"" + String(output[0].power) + "\"" + ",\"A2Z\":\"" + String(output[1].exState) + "\"" + ",\"A2M\":\"" + String(output[1].eMode) + "\"" + ",\"A2P\":\"" + String(output[1].power) + "\"" + ",\"A3Z\":\"" + String(output[2].exState) + "\"" + ",\"A3M\":\"" + String(output[2].eMode) + "\"" + ",\"A3P\":\"" + String(output[2].power) + "\"" + ",\"A4Z\":\"" + String(output[3].exState) + "\"" + ",\"A4M\":\"" + String(output[3].eMode) + "\"" + ",\"A4P\":\"" + String(output[3].power) + "\"" + ",\"A5Z\":\"" + String(output[4].exState) + "\"" + ",\"A5M\":\"" + String(output[4].eMode) + "\"" + ",\"A5P\":\"" + String(output[4].power) + "\"" + ",\"A6Z\":\"" + String(output[5].exState) + "\"" + ",\"A6M\":\"" + String(output[5].eMode) + "\"" + ",\"A6P\":\"" + String(output[5].power) + "\"}"; //@@@ iterativ machen bis act anzahl
 	server.send(200, F("application/json"), msgOutputsJson);
-	if (cfg.bDebug)
-	{
-		Serial.println(F("sendOutputData to Browser: "));
-		// Serial.println(msgOutputsJson);
-	}
+#ifdef DEBUGMODE
+
+	Serial.println(F("sendOutputData to Browser: "));
+	// Serial.println(msgOutputsJson);
+#endif
 }
 //-------------------------------------------------------------------------------------
 // Ausgang umschalten
@@ -245,7 +265,7 @@ void sendOutputData()
 void outputChange()
 {
 	int idx;
-	DebugPrint("Ausgangsänderung\n");
+	// DebugPrint("Ausgangsänderung\n");
 	if (server.hasArg("XNR"))
 	{
 		String tmp = server.arg("XNR");
@@ -270,7 +290,7 @@ void outputChange()
 				output[idx].bForced = true; // von Hand eingegriffen
 			}
 			outputWrite(idx, output[idx].x); // an hardware oder wlan ausgeben
-#ifdef DEBUGLEVEL
+#ifdef DEBUGMODE
 			Serial.print(" Ausgang: ");
 			Serial.print(idx + 1);
 			Serial.print("  Zustand neu: ");
@@ -290,9 +310,8 @@ void outConfigModify()
 {
 	int idx = uiAktOutputNr - 1;
 	char tmp1[32] = "";
-	if (cfg.bDebug)
-		Serial.printf("got OutputConfig %i from Browser ", uiAktOutputNr);
-#ifdef DEBUGLEVEL
+#ifdef DEBUGMODE
+	Serial.printf("got OutputConfig %i from Browser ", uiAktOutputNr);
 	char message[255] = "";
 	strcpy(message, "Ausgang Info: \n");
 
@@ -306,8 +325,8 @@ void outConfigModify()
 		strcat(message, tmp1);
 		strcat(message, "\n");
 	}
-	if (cfg.bDebug)
-		Serial.println(message);
+
+	Serial.println(message);
 #endif
 	//
 	String tmp;

@@ -77,8 +77,9 @@ void setup()
   //______________________Filesystem öffnen
   if (LittleFS.begin())
   {
-    if (cfg.bDebug)
-      Serial.println("Filesystem geöffnet");
+#ifdef DEBUGMODE
+    Serial.println("Filesystem geöffnet");
+#endif
   }
   if (resetInfo->reason != REASON_SOFT_RESTART)
   { // nach reset keine Meldung
@@ -184,7 +185,7 @@ void loop()
   // ----- Server + FTP bearbeiten
   handleServer();
   //-----------------------------------------------------------------------------------
-  Serial.print(F("-"));
+  // Serial.print(F("-"));
 
   //--------------------Check Wlan
   if (WiFi.status() != WL_CONNECTED)
@@ -220,12 +221,16 @@ void loop()
     switch (cfg.typ)
     {
     case SONNEN:
-      // Serial.println("getSonnenInfo");
+#ifdef DEBUGMODE
+      Serial.println("getSonnenInfo");
+#endif
       getSonnenInfo();
 #ifdef TMPSENSOR
+#ifdef DEBUGMODE
+      Serial.println("getTemperatur");
+#endif
       getTemperatur();
 #endif
-      // Serial.println("getTemperatur");
       break;
     default:
       break;
