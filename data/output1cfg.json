@@ -1,0 +1,16 @@
+{
+  "name": "Ausgang1",
+  "typ": "1",
+  "ip": "0.0.0.0",
+  "pin": "1",
+  "pos": "0",
+  "modus": "2",
+  "ref": "0",
+  "pwron": "1700",
+  "pwroff": "1500",
+  "minbatt": "99",
+  "prio": "3",
+  "mintime": "0",
+  "offtime": "0",
+  "temperatur": "62"
+}

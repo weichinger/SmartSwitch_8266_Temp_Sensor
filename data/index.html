@@ -90,8 +90,6 @@
 			cursor: pointer;
 		}
 
-		.button a {}
-
 		.panel {
 			padding: 0 8px;
 			background-color: white;
@@ -300,8 +298,6 @@
 		btn_init();
 	}
 
-
-
 	function chgOutput(i, x) {
 		var xhr = new XMLHttpRequest();
 		var url = "/outputchange?XNR=" + i + "&X=" + x;
@@ -348,7 +344,6 @@
 		xhr.send();
 	};
 
-
 	function Btgl(i) {
 		if (bIgnoreClick) {
 			bIgnoreClick = false;
@@ -371,7 +366,6 @@
 		getOutputData();
 	}
 
-
 	function btn_init() {	  // Buttons wegblenden
 		if (anzoutputs < 1) {
 			return;
@@ -387,7 +381,6 @@
 			document.getElementById(name).style.display = "none";
 		}
 	}
-
 
 	function pageUpdate() {
 		var today = new Date();
@@ -457,7 +450,6 @@
 		if (i < 10) { i = "0" + i };
 		return i;
 	};
-
 
 	function getConfig() {
 		var xhr = new XMLHttpRequest();
@@ -571,6 +563,7 @@
 		};
 		xhr.send();
 	};
+
 	function getTempData() {
 
 		var xhr = new XMLHttpRequest();
